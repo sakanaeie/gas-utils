@@ -21,6 +21,31 @@ function splitCountByList(list, c) {
 }
 
 /**
+ * 空行が続く限り、直前の空行でない値を繰り返す
+ *
+ * @param {Array} list e.g. A1:B2
+ * @returns {Array}
+ */
+function repeatWhileEmpty(list) {
+  let result = [];
+  let prevs  = [];
+  list.forEach(row => {
+    let completed = [];
+    row.forEach((cell, index) => {
+      if ('' === cell) {
+        completed[index] = prevs[index] ?? '';
+      } else {
+        completed[index] = cell;
+        prevs[index]     = cell;
+      }
+    });
+    result.push(completed);
+  });
+
+  return result;
+}
+
+/**
  * 呼び出し元のセルと同色なセルを取得する
  *
  * @param {string} a1notation e.g. A1:B2
@@ -73,14 +98,14 @@ function countColoredCells(a1notation) {
  * # 呼び出し方の例
  * =gantt($A$2,A4:A30,B4:B30,C4:C30,D4:D30,$B$2,$C$2,$D$2)
  *
- * @param {Date}    today           今日
- * @param {Date[]}  startList       開始日の列
- * @param {mixed[]} startTimingList 開始タイミングの表示文字列の列
- * @param {Date[]}  endList         終了日の列
- * @param {mixed[]} endTimingList   終了タイミングの表示文字列の列
- * @param {int}     pastDays        表示する過去の日数
- * @param {int}     futureDays      表示する未来の日数
- * @param {mixed}   dummy           再計算誘発用ダミー
+ * @param {Date}   today           今日
+ * @param {Date[]} startList       開始日の列
+ * @param {*[]}    startTimingList 開始タイミングの表示文字列の列
+ * @param {Date[]} endList         終了日の列
+ * @param {*[]}    endTimingList   終了タイミングの表示文字列の列
+ * @param {int}    pastDays        表示する過去の日数
+ * @param {int}    futureDays      表示する未来の日数
+ * @param {*}      dummy           再計算誘発用ダミー
  * @returns {string[]}
  */
 function gantt(today, startList, startTimingList, endList, endTimingList, pastDays, futureDays, dummy) {
