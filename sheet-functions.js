@@ -105,11 +105,9 @@ function countColoredCells(a1notation) {
  * @param {*[]}    endTimingList   終了タイミングの表示文字列の列
  * @param {int}    pastDays        表示する過去の日数
  * @param {int}    futureDays      表示する未来の日数
- * @param {*}      dummy           再計算誘発用ダミー
  * @returns {string[]}
  */
-function gantt(today, startList, startTimingList, endList, endTimingList, pastDays, futureDays, dummy) {
-  dummy       = '';
+function gantt(today, startList, startTimingList, endList, endTimingList, pastDays, futureDays) {
   let mark    = '';
   let results = [];
 
